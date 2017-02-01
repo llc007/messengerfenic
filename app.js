@@ -5,7 +5,7 @@ const request = require('request')
 const APP_TOKEN = 'EAAEmJSmqdNwBADEJ8WdEJF08mwX5vdGr2hjZAu3Baed7ScHhslbPzzqZCFGuWj1iA0ZChhMrHNGVGhBTJCJNEdAHA2BEykRWud73CTiNmlRgbGT8mjZAwogdCZBod2aEy701PeAABuhAuAZCnKmCTfbrVDiolGJfJZAN4CRV3aoaAZDZD'
 
 var app = express()
-
+var cadena = ""
 app.use(bodyParser.json())
 
 var PORT = process.env.PORT || 3000;
@@ -26,7 +26,7 @@ app.get('/webhook',function(req, res){
 	}
 })
 function escribirLog(text){
-	var cadena = cadena + text
+	cadena=cadena + text
 app.get('/log',function(req, res){
 	res.send(cadena)
 })
@@ -69,8 +69,8 @@ function evaluarMensaje(senderID, messageText){
 		getClima(function(_temperatura){
 			enviarMensajeTexto(senderID, getMessageCLima(_temperatura))
 		})
-	}else if(isContain(messageText,'desactivar') && senderID >0){
-		mensaje = 'descativadooooo'
+	}else if(isContain(messageText,'desactivar') && senderID ===1250582101702601){
+		mensaje = 'Me desactivo el lucho lopez'
 	}else{
 		mensaje = 'Hola, Gracias por comunicarte con Fenic, Te responderemos a la brevedad...\npara mayor informacion, visita www.fenicweb.cl'
 		mensaje = mensaje.concat('Ahora te podemos dar la siguiente informacion:')
