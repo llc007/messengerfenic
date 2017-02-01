@@ -7,7 +7,7 @@ const APP_TOKEN = 'EAAEmJSmqdNwBADEJ8WdEJF08mwX5vdGr2hjZAu3Baed7ScHhslbPzzqZCFGu
 var app = express()
 var cadena = ""
 app.use(bodyParser.json())
-
+var activado =true
 var PORT = process.env.PORT || 3000;
 
 app.listen(PORT,function(){
@@ -26,7 +26,7 @@ app.get('/webhook',function(req, res){
 	}
 })
 function escribirLog(text){
-	cadena=cadena + text
+	cadena=cadena.concat('\n'+text)
 app.get('/log',function(req, res){
 	res.send(cadena)
 })
@@ -50,36 +50,44 @@ app.post('/webhook',function(req, res){
 function getMessage(event){
 	var senderID = event.sender.id
 	var messageText = event.message.text
-	escribirLog(senderID)
+	escribirLog("la id es: " + senderID)
 	evaluarMensaje(senderID, messageText)
 }
 
 function evaluarMensaje(senderID, messageText){
 	var mensaje = '';
+	if(activado){
+		if(isContain(messageText,'ayuda')){
+			mensaje = 'Hola Soy FenicBot puedo ayudarte con algunas tareas sencillas, como darte informacion de FENIC'
+		}else if(isContain(messageText,'info')){
+			mensaje = 'Hola!! Gracias por comunicarte con Fenic \npuedes enviarnos un correo a hola@fenicweb.cl \no hablarnos al WhatsApp +569 90583957'
+		}else if(isContain(messageText,'perro')){
+			enviarMensajeImagen(senderID)
+		}else if(isContain(messageText,'perfil')){
+			enviarMensajeTemplate(senderID)
+		}else if(isContain(messageText,'clima') || isContain(messageText,'temperatura')|| isContain(messageText,'Clima')){
+			//getClima(function(_temperatura){
+				//enviarMensajeTexto(senderID, getMessageCLima(_temperatura))
+				//enviarMensajeTexto(senderID, getMessageCLima(24))
+				mensaje = 'Tenemos 24°, es un dia agradable para salir.'
+			//})
+		}else if(isContain(messageText,'desactivar') && senderID ==1250582101702601){
+			mensaje = 'Me desactivo el lucho lopez'
+			activado = false;
+		}else{
+			mensaje = 'Hola, Gracias por comunicarte con Fenic, Te responderemos a la brevedad...\npara mayor informacion, visita www.fenicweb.cl'
+			mensaje = mensaje.concat('Ahora te podemos dar la siguiente informacion:')
+			mensaje = mensaje.concat('Preguntame por precios, informacion, clima o ayuda')
+			mensaje = mensaje.concat('solo escribe lo que necesitas ;)')
+		
+		}
 
-	if(isContain(messageText,'ayuda')){
-		mensaje = 'Hola Soy FenicBot'
-	}else if(isContain(messageText,'info')){
-		mensaje = 'Hola!! Gracias por comunicarte con Fenic \npuedes enviarnos un correo a hola@fenicweb.cl \no hablarnos al WhatsApp +569 90583957'
-	}else if(isContain(messageText,'perro')){
-		enviarMensajeImagen(senderID)
-	}else if(isContain(messageText,'perfil')){
-		enviarMensajeTemplate(senderID)
-	}else if(isContain(messageText,'clima') || isContain(messageText,'temperatura')|| isContain(messageText,'Clima')){
-		getClima(function(_temperatura){
-			enviarMensajeTexto(senderID, getMessageCLima(_temperatura))
-		})
-	}else if(isContain(messageText,'desactivar') && senderID ===1250582101702601){
-		mensaje = 'Me desactivo el lucho lopez'
-	}else{
-		mensaje = 'Hola, Gracias por comunicarte con Fenic, Te responderemos a la brevedad...\npara mayor informacion, visita www.fenicweb.cl'
-		mensaje = mensaje.concat('Ahora te podemos dar la siguiente informacion:')
-		mensaje = mensaje.concat('Preguntame por precios, informacion, clima o ayuda')
-		mensaje = mensaje.concat('solo escribe lo que necesitas ;)')
-	
+		enviarMensajeTexto(senderID, mensaje)
+	}else if(isContain(messageText,'activar') && senderID ==1250582101702601){
+		mensaje = 'Estoy activado'
+		activado=true;
 	}
 
-	enviarMensajeTexto(senderID, mensaje)
 }
 
 function enviarMensajeTemplate(senderID){
