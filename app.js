@@ -29,6 +29,7 @@ app.get('/webhook',function(req, res){
 app.post('/webhook',function(req, res){
 	var data = req.body
 	if(data.object == 'page'){
+		res.send('Abriendo el puerto desde mi pc Local con http://ngrok.com')
 		data.entry.forEach(function(pageEntry){
 			pageEntry.messaging.forEach(function(messagingEvent){
 				if(messagingEvent.message){					
@@ -51,7 +52,7 @@ function evaluarMensaje(senderID, messageText){
 	var mensaje = '';
 
 	if(isContain(messageText,'ayuda')){
-		mensaje = 'Por el momento no te puedo ayudar :('
+		mensaje = 'Hola Soy FenicBot'
 	}else if(isContain(messageText,'info')){
 		mensaje = 'Hola!! Gracias por comunicarte con Fenic \npuedes enviarnos un correo a hola@fenicweb.cl \no hablarnos al WhatsApp +569 90583957'
 	}else if(isContain(messageText,'perro')){
@@ -63,7 +64,11 @@ function evaluarMensaje(senderID, messageText){
 			enviarMensajeTexto(senderID, getMessageCLima(_temperatura))
 		})
 	}else{
-		mensaje = 'Hola, Gracias por comunicarte con Fenic, Te responderemos a la brevedad...\npara mayor informacion, visita nuestra pagina web www.fenicweb.cl'+ messageText
+		mensaje = 'Hola, Gracias por comunicarte con Fenic, Te responderemos a la brevedad...\npara mayor informacion, visita www.fenicweb.cl'
+		mensaje = mensaje.concat('Ahora te podemos dar la siguiente informacion:')
+		mensaje = mensaje.concat('Preguntame por precios, informacion, clima o ayuda')
+		mensaje = mensaje.concat('solo escribe lo que necesitas ;)')
+	
 	}
 
 	enviarMensajeTexto(senderID, mensaje)
