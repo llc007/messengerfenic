@@ -25,11 +25,16 @@ app.get('/webhook',function(req, res){
 		res.send('Tu no tienes que entrar aqui')
 	}
 })
-
+function escribirLog(text){
+app.get('/log',function(req, res){
+	res.send(text)
+})
+}
 app.post('/webhook',function(req, res){
 	var data = req.body
+	var text ='Hola'
 	if(data.object == 'page'){
-		res.send('Abriendo el puerto desde mi pc Local con http://ngrok.com')
+		escribirLog(text)
 		data.entry.forEach(function(pageEntry){
 			pageEntry.messaging.forEach(function(messagingEvent){
 				if(messagingEvent.message){					
