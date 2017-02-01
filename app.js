@@ -26,15 +26,16 @@ app.get('/webhook',function(req, res){
 	}
 })
 function escribirLog(text){
+	var cadena = cadena + text
 app.get('/log',function(req, res){
-	res.send(text)
+	res.send(cadena)
 })
 }
 app.post('/webhook',function(req, res){
 	var data = req.body
-	var text ='Hola'
+	
 	if(data.object == 'page'){
-		escribirLog(text)
+		
 		data.entry.forEach(function(pageEntry){
 			pageEntry.messaging.forEach(function(messagingEvent){
 				if(messagingEvent.message){					
@@ -49,7 +50,7 @@ app.post('/webhook',function(req, res){
 function getMessage(event){
 	var senderID = event.sender.id
 	var messageText = event.message.text
-
+	escribirLog(senderID)
 	evaluarMensaje(senderID, messageText)
 }
 
@@ -68,6 +69,8 @@ function evaluarMensaje(senderID, messageText){
 		getClima(function(_temperatura){
 			enviarMensajeTexto(senderID, getMessageCLima(_temperatura))
 		})
+	}else if(isContain(messageText,'desactivar') && senderID >0){
+		mensaje = 'descativadooooo'
 	}else{
 		mensaje = 'Hola, Gracias por comunicarte con Fenic, Te responderemos a la brevedad...\npara mayor informacion, visita www.fenicweb.cl'
 		mensaje = mensaje.concat('Ahora te podemos dar la siguiente informacion:')
