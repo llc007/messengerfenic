@@ -63,7 +63,7 @@ function evaluarMensaje(senderID, messageText){
 			enviarMensajeTexto(senderID, getMessageCLima(_temperatura))
 		})
 	}else{
-		mensaje = '[Heroku]solo se repetir las cosas T_T '+ messageText
+		mensaje = 'Hola, Gracias por comunicarte con Fenic, Te responderemos a la brevedad...\npara mayor informacion, visita nuestra pagina web www.fenicweb.cl'+ messageText
 	}
 
 	enviarMensajeTexto(senderID, mensaje)
@@ -79,7 +79,7 @@ function enviarMensajeTemplate(senderID){
 				type: "template",
 				payload: {
 					template_type: 'generic',
-					elements: [elementTemplate(),elementTemplate(),elementTemplate(),elementTemplate()]
+					elements: [elementTemplate()]
 				}
 			}
 		}
@@ -90,13 +90,13 @@ function enviarMensajeTemplate(senderID){
 
 function elementTemplate(){
 	return {
-		title: "Joseph Esteban Carrasco",
-		subtitle: "Programador freelance & Youtuber",
-		item_url: "http://informaticomanchay.com",
-		image_url: "https://s-media-cache-ak0.pinimg.com/564x/ef/e8/ee/efe8ee7e20537c7af84eaaf88ccc7302.jpg",
+		title: "Fenic",
+		subtitle: "Paginas web y soporte informatico",
+		item_url: "http://fenicweb.cl",
+		image_url: "https://raw.githubusercontent.com/llc007/llc007.github.io/master/img/BannerFacebook.jpg",
 		buttons: [
-			buttonTemplate('Contactame','http://informaticomanchay.com/contacto'),
-			buttonTemplate('Portafolio','http://informaticomanchay.com/')
+			buttonTemplate('Contactanos','hola@fenic.cl'),
+			buttonTemplate('Portafolio','http://fenicweb.cl/')
 		]
 	}
 }
